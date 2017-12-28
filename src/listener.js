@@ -87,7 +87,7 @@ export default class ReactiveListener {
     checkInView () {
         this.getRect()
         return (this.rect.top < window.innerHeight * this.options.preLoad && this.rect.bottom > this.options.preLoadTop) &&
-            (this.rect.left < window.innerWidth * this.options.preLoad && this.rect.right > 0)
+            (this.rect.left < window.innerWidth && this.rect.right > 0)
     }
 
     /**
