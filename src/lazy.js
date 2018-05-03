@@ -1,8 +1,8 @@
-import { 
+import {
     inBrowser,
-    remove, 
-    some, 
-    find, 
+    remove,
+    some,
+    find,
     _,
     throttle,
     supportWebp,
@@ -20,13 +20,13 @@ import ReactiveListener from './listener'
 const DEFAULT_URL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 const DEFAULT_EVENTS = ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'touchmove']
 const DEFAULT_OBSERVER_OPTIONS = {
-    rootMargin: '0px', 
+    rootMargin: '0px',
     threshold: 0
 }
 
 export default function (Vue) {
     return class Lazy {
-        constructor ({ preLoad, error, throttleWait, preLoadTop, dispatchEvent, loading, attempt, silent, scale, listenEvents, hasbind, filter, adapter, observer, observerOptions }) {
+        constructor ({ preLoad, error, throttleWait, preLoadTop, dispatchEvent, loading, attempt, silent, scale, listenEvents, hasbind, filter, adapter, observer, observerOptions, ssrLoad }) {
             this.version = '__VUE_LAZYLOAD_VERSION__'
             this.mode = modeType.event
             this.ListenerQueue = []
@@ -48,7 +48,8 @@ export default function (Vue) {
                 filter: filter || {},
                 adapter: adapter || {},
                 observer: !!observer,
-                observerOptions: observerOptions || DEFAULT_OBSERVER_OPTIONS
+                observerOptions: observerOptions || DEFAULT_OBSERVER_OPTIONS,
+                ssrLoad: ssrLoad || false
             }
             this._initEvent()
 
@@ -68,7 +69,7 @@ export default function (Vue) {
 
         /**
          * output listener's load performance
-         * @return {Array} 
+         * @return {Array}
          */
         performance () {
             let list = []
@@ -99,7 +100,7 @@ export default function (Vue) {
 
         /**
          * add image listener to queue
-         * @param  {DOM} el 
+         * @param  {DOM} el
          * @param  {object} binding vue directive binding
          * @param  {vnode} vnode vue directive vnode
          * @return
@@ -154,7 +155,7 @@ export default function (Vue) {
 
          /**
          * update image src
-         * @param  {DOM} el 
+         * @param  {DOM} el
          * @param  {object} vue directive binding
          * @return
          */
@@ -176,7 +177,7 @@ export default function (Vue) {
 
         /**
          * remove listener form list
-         * @param  {DOM} el 
+         * @param  {DOM} el
          * @return
          */
         remove (el) {
@@ -192,7 +193,7 @@ export default function (Vue) {
 
         /**
          * remove lazy components form list
-         * @param  {Vue} vm Vue instance 
+         * @param  {Vue} vm Vue instance
          * @return
          */
         removeComponent (vm) {
@@ -211,7 +212,7 @@ export default function (Vue) {
             }
 
             this.mode = mode // event or observer
-            
+
             if (mode === modeType.event) {
                 if (this._observer) {
                     this.ListenerQueue.forEach(listener => {
@@ -230,12 +231,12 @@ export default function (Vue) {
                 this._initIntersectionObserver()
             }
         }
-        
+
         /**** Private functions ****/
 
         /**
          * add listener target
-         * @param  {DOM} el listener target 
+         * @param  {DOM} el listener target
          * @return
          */
         _addListenerTarget (el) {
@@ -359,7 +360,7 @@ export default function (Vue) {
                             if (listener.state.loaded) return this._observer.unobserve(listener.el)
                             listener.load()
                         }
-                        
+
                     })
                 }
             })
@@ -369,7 +370,7 @@ export default function (Vue) {
          * set element attribute with image'url and state
          * @param  {object} lazyload listener object
          * @param  {string} state will be rendered
-         * @param  {bool} inCache  is rendered from cache 
+         * @param  {bool} inCache  is rendered from cache
          * @return
          */
         _elRenderer (listener, state, cache) {
@@ -409,7 +410,7 @@ export default function (Vue) {
         }
 
         /**
-         * generate loading loaded error image url 
+         * generate loading loaded error image url
          * @param {string} image's src
          * @return {object} image's loading, loaded, error url
          */

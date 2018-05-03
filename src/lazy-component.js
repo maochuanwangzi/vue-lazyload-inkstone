@@ -24,6 +24,12 @@ export default (lazy) => {
                 show: false
             }
         },
+        created () {
+            // Handle SSR load
+            if (!inBrowser && lazy.options.ssrLoad) {
+                this.load()
+            }
+        },
         mounted () {
             this.el = this.$el
             lazy.addLazyBox(this)
