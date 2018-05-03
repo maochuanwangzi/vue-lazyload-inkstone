@@ -9,7 +9,7 @@ export default (lazy) => {
             }
         },
         render (h) {
-            if (this.show === false) {
+            if (this.show === false && lazy.options.ssrLoad !== true) {
                 return h(this.tag)
             }
             return h(this.tag, null, this.$slots.default)
