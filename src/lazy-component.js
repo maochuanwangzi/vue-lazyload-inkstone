@@ -47,9 +47,10 @@ export default (lazy) => {
             },
             checkInView () {
                 this.getRect()
-                return inBrowser &&
-                    (this.rect.top < window.innerHeight * lazy.options.preLoad && this.rect.bottom > 0) &&
-                    (this.rect.left < window.innerWidth && this.rect.right > 0)
+                return true
+                // return inBrowser &&
+                //     (this.rect.top < window.innerHeight * lazy.options.preLoad && this.rect.bottom > 0) &&
+                //     (this.rect.left < window.innerWidth && this.rect.right > 0)
             },
             load () {
                 this.show = true
