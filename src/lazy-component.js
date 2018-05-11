@@ -14,7 +14,7 @@ export default (lazy) => {
         },
         render (h) {
             if (this.show === false) {
-                return h(this.tag)
+                // return h(this.tag)
             }
             return h(this.tag + this.isDirectAccess, this.$slots.default)
         },
