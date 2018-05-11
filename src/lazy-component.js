@@ -6,6 +6,10 @@ export default (lazy) => {
             tag: {
                 type: String,
                 default: 'div'
+            },
+            isDirectAccess: {
+                type: Boolean,
+                default: false
             }
         },
         render (h) {
@@ -25,9 +29,14 @@ export default (lazy) => {
             }
         },
         mounted () {
+            console.warn('vue lazy load mounted: isDirectAccess', this.isDirectAccess)
             this.el = this.$el
             lazy.addLazyBox(this)
             lazy.lazyLoadHandler()
+            // Trigger lazy load when direct access to content
+            if (this.isDirectAccess) {
+                this.load()
+            }
         },
         beforeDestroy () {
             lazy.removeComponent(this)
