@@ -29,7 +29,6 @@ export default (lazy) => {
             }
         },
         mounted () {
-            console.warn('vue lazy load mounted: isDirectAccess ', this.isDirectAccess)
             this.el = this.$el
             lazy.addLazyBox(this)
             lazy.lazyLoadHandler()
