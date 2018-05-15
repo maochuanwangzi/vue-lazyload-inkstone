@@ -13,7 +13,7 @@ export default (lazy) => {
             }
         },
         render (h) {
-            if (this.show === false && lazy.options.ssrLoad !== true && this.isDirectAccess !== true) {
+            if (this.show === false && this.isDirectAccess !== true) {
                 return h(this.tag)
             }
             return h(this.tag, this.$slots.default)
@@ -29,9 +29,10 @@ export default (lazy) => {
             }
         },
         created () {
-            // Handle SSR load
-            if (!inBrowser && lazy.options.ssrLoad) {
+            // Handle isDirectAccess in SSR
+            if (!inBrowser && this.isDirectAccess) {
                 this.load()
+                lazy.lazyLoadHandler()
             }
         },
         mounted () {
