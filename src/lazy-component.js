@@ -13,7 +13,7 @@ export default (lazy) => {
             }
         },
         render (h) {
-            if (this.show === false && lazy.options.ssrLoad !== true) {
+            if (this.show === false && lazy.options.ssrLoad !== true && this.isDirectAccess !== true) {
                 return h(this.tag)
             }
             return h(this.tag, this.$slots.default)
