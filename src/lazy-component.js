@@ -6,13 +6,17 @@ export default (lazy) => {
             tag: {
                 type: String,
                 default: 'div'
+            },
+            isDirectAccess: {
+                type: Boolean,
+                default: false
             }
         },
         render (h) {
             if (this.show === false && lazy.options.ssrLoad !== true) {
                 return h(this.tag)
             }
-            return h(this.tag, null, this.$slots.default)
+            return h(this.tag, this.$slots.default)
         },
         data () {
             return {
@@ -34,6 +38,10 @@ export default (lazy) => {
             this.el = this.$el
             lazy.addLazyBox(this)
             lazy.lazyLoadHandler()
+            // Trigger lazy load when direct access to content
+            if (this.isDirectAccess) {
+                this.load()
+            }
         },
         beforeDestroy () {
             lazy.removeComponent(this)
